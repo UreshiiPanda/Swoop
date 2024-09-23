@@ -1,12 +1,12 @@
-### Swoop Keyboard Config
+# Swoop Keyboard Config
 
-# Build: run the following from initial QMK dir:
+### Build: run the following from initial QMK dir:
 
 ```sh
 qmk compile -kb bluebell/swoop -km default
 ```
 
-# Credits
+### Credits
 - Swoop: https://github.com/jimmerricks/swoop
 - Keyboard: https://shop.beekeeb.com
 - Keycaps: https://yuzukeycaps.com/
