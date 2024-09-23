@@ -3,11 +3,10 @@
 # Build: run the following from initial QMK dir:
 
 ```sh
-make bluebell/swoop:vial
+qmk compile -kb bluebell/swoop -km default
 ```
-<br>
-# Credits
 
+# Credits
 - Swoop: https://github.com/jimmerricks/swoop
 - Keyboard: https://shop.beekeeb.com
 - Keycaps: https://yuzukeycaps.com/
