@@ -185,6 +185,24 @@ void leader_end_user(void) {
 }
 
 
+// this is needed for turning off hold-layers on key-release
+// instead of turning the layer off the next time that layering key
+// is pressed (which is what those "finished" methods do
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD(DANCE_6):
+            if (!record->event.pressed) {
+                layer_off(1);
+            }
+            return true;
+        case TD(DANCE_4):
+            if (!record->event.pressed) {
+                layer_off(2);
+            }
+            return true;
+    }
+    return true;
+}
 
 
 void on_dance_1(tap_dance_state_t *state, void *user_data);
@@ -277,7 +295,7 @@ void dance_2_finished(tap_dance_state_t *state, void *user_data) {
 	dance_state.step = dance_2_dance_step(state);
 	switch (dance_state.step) {
 		case SINGLE_TAP: register_code16(KC_ENTER); break;
-		case SINGLE_HOLD: register_code16(KC_RGUI); break;
+		case SINGLE_HOLD: register_code16(KC_LGUI); break;
 		case DOUBLE_TAP: register_code16(KC_ENTER); register_code16(KC_ENTER); break;
 		case DOUBLE_SINGLE_TAP: tap_code16(KC_ENTER); register_code16(KC_ENTER);
 	}
@@ -287,7 +305,7 @@ void dance_2_reset(tap_dance_state_t *state, void *user_data) {
 	wait_ms(10);
 	switch (dance_state.step) {
 		case SINGLE_TAP: unregister_code16(KC_ENTER); break;
-		case SINGLE_HOLD: unregister_code16(KC_RGUI); break;
+		case SINGLE_HOLD: unregister_code16(KC_LGUI); break;
 		case DOUBLE_TAP: unregister_code16(KC_ENTER); break;
 		case DOUBLE_SINGLE_TAP: unregister_code16(KC_ENTER); break;
 	}
