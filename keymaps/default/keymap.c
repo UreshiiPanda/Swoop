@@ -35,6 +35,8 @@ enum tap_dance_codes {
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
+
 /*
  * ALPHA (ISRT)
  * ,---------------------------------.     ,----------------------------------.
@@ -59,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * NUMS
  * ,---------------------------------.     ,----------------------------------.
- * |     |   +  |   =  |   -  | PREV |     | NEXT | VOL- | VOL+ | PLAY | BACK |
+ * | MUTE|   +  |   =  |   -  | PREV |     | NEXT | VOL- | VOL+ | PLAY | BACK |
  * |-----+------+------+------+------|     |------+------+------+------+------|
  * |  0  |   1  |   2  |   3  |   4  |     |   5  |   6  |   7  |   8  |   9  |
  * |-----+------+------+------+------|     ,------+------+------+------+------|
@@ -70,12 +72,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_NUMS] = LAYOUT_split_3x5_3(
-  KC_NO,   KC_PLUS, KC_EQL,  KC_MINS, KC_MPRV,      KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY, KC_BSPC,
+  KC_MUTE,   KC_PLUS, KC_EQL,  KC_MINS, KC_MPRV,      KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY, KC_BSPC,
   KC_0,    KC_1,    KC_2,    KC_3,    KC_4,         KC_5,    KC_6,    KC_7,    KC_8,    KC_9,
   KC_NO,   KC_NO,   KC_QUOT, KC_DQUO, KC_NO,        KC_NO,   KC_DEL,  TD(DANCE_5), KC_NO, KC_NO,
            TD(DANCE_3), TD(DANCE_1), KC_RSFT,     TD(DANCE_6), TD(DANCE_2), TD(DANCE_4)
 ),
-
 
 
 /*
@@ -97,7 +98,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TILD, KC_HASH, KC_CIRC, KC_SCLN, KC_AT,        KC_LT,   KC_GT,   TD(DANCE_5), KC_GRV, KC_MINS,
            TD(DANCE_3), TD(DANCE_1), KC_RSFT,     TD(DANCE_6), TD(DANCE_2), TD(DANCE_4)
 ),
-
 
 
 /*
