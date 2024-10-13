@@ -51,7 +51,11 @@
 
 
 // the maximum time (ms) allowed between taps of your Tap Dance key
+// this is also determines how long a hold takes
 #define TAPPING_TERM 150
+
+// per-key control of tapping term
+#define TAPPING_TERM_PER_KEY
 
 // you can enable per-key timing to ensure that each key pressed provides you with more time to finish the sequence
 #define LEADER_PER_KEY_TIMING

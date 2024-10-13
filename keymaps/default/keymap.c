@@ -174,6 +174,10 @@ void leader_end_user(void) {
         // Leader, f => Types the below string
         SEND_STRING("QMK is awesome.");
         did_leader_succeed = true;
+    } else if (leader_sequence_one_key(KC_RSFT)) {
+        // leader-Rshift turns on mouse layer
+        layer_on(3);
+        did_leader_succeed = true;
     } else if (leader_sequence_two_keys(KC_A, KC_S)) {
         // Leader, a, s => meow
         SEND_STRING("meow");
@@ -202,6 +206,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
     }
     return true;
+}
+
+
+// per-key tapping terms
+// this func is called for every key press
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD(DANCE_4):
+            return TAPPING_TERM - 100;
+        default:
+            return TAPPING_TERM;
+    }
 }
 
 
@@ -387,13 +403,14 @@ uint8_t dance_4_dance_step(tap_dance_state_t *state) {
 	}
 	return MORE_TAPS;
 }
+
 void dance_4_finished(tap_dance_state_t *state, void *user_data) {
 	dance_state.step = dance_4_dance_step(state);
 	switch (dance_state.step) {
-		case SINGLE_TAP: layer_on(3); break;
+		case SINGLE_TAP: break;
 		case SINGLE_HOLD: layer_on(2); break;
 		case DOUBLE_TAP: layer_on(3); break;
-		case DOUBLE_SINGLE_TAP: layer_on(3);
+		case DOUBLE_SINGLE_TAP: layer_on(3); break;
 	}
 }
 
