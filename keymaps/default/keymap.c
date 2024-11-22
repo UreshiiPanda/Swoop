@@ -34,6 +34,15 @@ enum tap_dance_codes {
   DANCE_7,
 };
 
+// TAP DANCE KEYS
+// TD1: Space, Hyper
+// TD2: Enter, Cmd
+// TD3: Esc, Mouse (layer 3)
+// TD4: Slash, Symbols (layer 2)
+// TD5: Tab, Control
+// TD6: Leader, Numbers (layer 1)
+// TD7: Period, Alt
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -43,9 +52,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------.     ,----------------------------------.
  * |  Y  |   C  |   L  |   M  |   K  |     |   Z  |   F  |   U  |   ,  | BACK |
  * |-----+------+------+------+------|     |------+------+------+------+------|
- * |  I  |   S  |   R  | TD7  |   G  |     |   P  |   N  |   E  |   A  |   O  |
+ * |  I  |   S  |   R  |   T  |   G  |     |   P  |   N  |   E  |   A  |   O  |
  * |-----+------+------+------+------|     ,------+------+------+------+------|
- * |  Q  |   V  |   W  |   D  |   J  |     |   B  |   H  | TD5  |   .  |   X  |
+ * |  Q  |   V  |   W  |   D  |   J  |     |   B  |   H  | TD5  | TD7  |   X  |
  * `------------+------+------+------|     |------+------+------+-------------'
  *              | TD3  | TD1  | Shift|     | TD6  | TD2  | TD4  |
  *              `--------------------'     `--------------------'
@@ -53,8 +62,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_ALPHA] = LAYOUT_split_3x5_3(
   KC_Y,   KC_C,    KC_L,    KC_M,    KC_K,        KC_Z,    KC_F,    KC_U,    KC_COMMA,    KC_BSPC,
-  KC_I,   KC_S,    KC_R,    TD(DANCE_7),    KC_G,        KC_P,    KC_N,    KC_E,    KC_A,    KC_O,
-  KC_Q,   KC_V,    KC_W,    KC_D,    KC_J,        KC_B,    KC_H,    TD(DANCE_5), KC_DOT,  KC_X,
+  KC_I,   KC_S,    KC_R,    KC_T,    KC_G,        KC_P,    KC_N,    KC_E,    KC_A,    KC_O,
+  KC_Q,   KC_V,    KC_W,    KC_D,    KC_J,        KC_B,    KC_H,    TD(DANCE_5), TD(DANCE_7),  KC_X,
                    TD(DANCE_3),  TD(DANCE_1), KC_RSFT,      TD(DANCE_6),  TD(DANCE_2),  TD(DANCE_4)
 ),
 
@@ -83,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * SYMBOL
  * ,---------------------------------.     ,----------------------------------.
- * |  /  |   *  |   &  |   !  |   %  |     |  \   |  {   |   }  |  _   | TD7  |
+ * |  /  |   *  |   &  |   !  |   %  |     |  \   |  {   |   }  |  _   | BACK |
  * |-----+------+------+------+------|     |------+------+------+------+------|
  * |  ?  |   '  |   "  |   :  |   $  |     |   |  |   (  |   )  |   [  |   ]  |
  * |-----+------+------+------+------|     ,------+------+------+------+------|
@@ -110,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |-----+------+------+------+------|     ,------+------+------+------+------|
  * |BRITE+|BRITE-|BLITE+|BLITE-|     |     | ARR-L| ARR-D| ARR-U| ARR-R|      |
  * `------------+------+------+------|     |------+------+------+-------------'
- *              | TD3  | TD1  | Shift|     | TD6  | TD2  | TO0  |
+ *              | TD3  | TD1  | Shift|     | TD6  | TD2  | TD4  |
  *              `--------------------'     `--------------------'
  */
 
@@ -173,16 +182,16 @@ void leader_end_user(void) {
     bool did_leader_succeed = false;
     if (leader_sequence_one_key(KC_F)) {
         // Leader, f => Types the below string
-        SEND_STRING("QMK is awesome.");
+        SEND_STRING("Leader Key: Nya");
         did_leader_succeed = true;
     } else if (leader_sequence_one_key(KC_RSFT)) {
         // leader-Rshift turns on mouse layer
         // layer_on(3);
-        SEND_STRING("Email here.");
+        SEND_STRING("Leader Key: Meow");
         did_leader_succeed = true;
     } else if (leader_sequence_two_keys(KC_A, KC_S)) {
         // Leader, a, s => meow
-        SEND_STRING("meow");
+        SEND_STRING("Leader Key: Nya Nya");
         did_leader_succeed = true;
     }
     if (!did_leader_succeed) {
@@ -194,25 +203,58 @@ void leader_end_user(void) {
 // this is needed for turning off hold-layers on key-release
 // instead of turning the layer off the next time that layering key
 // is pressed (which is what those "finished" methods do
+// this is also needed to turn off mod keys faster or to make sure
+// they get turnedd off on key release and don't get stuck
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case TD(DANCE_6):
+        case TD(DANCE_1):  // Handles the Hyper key
             if (!record->event.pressed) {
-                layer_off(1);
+                unregister_code16(KC_LCTL);
+                unregister_code16(KC_LALT);
+                unregister_code16(KC_LGUI);
+                unregister_code16(KC_LSFT);
             }
             return true;
-        case TD(DANCE_4):
+
+        case TD(DANCE_2):  // Handles Cmd key
             if (!record->event.pressed) {
-                layer_off(2);
+                unregister_code16(KC_LGUI);
             }
             return true;
-        case TD(DANCE_7):
+
+        case TD(DANCE_3):  // Handles Mouse layer toggle
             if (!record->event.pressed) {
-                layer_off(3);
+                layer_off(3);  // Ensures the Mouse layer is turned off
             }
             return true;
+
+        case TD(DANCE_4):  // Handles Symbols layer toggle
+            if (!record->event.pressed) {
+                layer_off(2);  // Ensures the Symbols layer is turned off
+            }
+            return true;
+
+        case TD(DANCE_5):  // Handles Control key
+            if (!record->event.pressed) {
+                unregister_code16(KC_LCTL);
+            }
+            return true;
+
+        case TD(DANCE_6):  // Handles Numbers layer toggle
+            if (!record->event.pressed) {
+                layer_off(1);  // Ensures the Numbers layer is turned off
+            }
+            return true;
+
+        case TD(DANCE_7):  // Handles Alt key
+            if (!record->event.pressed) {
+                unregister_code16(KC_RALT);
+            }
+            return true;
+
+        default:
+            return true;  // Ensures other keycodes are processed normally
     }
-    return true;
 }
 
 
@@ -466,7 +508,7 @@ void dance_5_finished(tap_dance_state_t *state, void *user_data) {
 	dance_state.step = dance_5_dance_step(state);
 	switch (dance_state.step) {
 		case SINGLE_TAP: register_code16(KC_TAB); break;
-		case SINGLE_HOLD: register_code16(KC_RALT); break;
+		case SINGLE_HOLD: register_code16(KC_LCTL); break;
 		case DOUBLE_TAP: register_code16(KC_TAB); register_code16(KC_TAB); break;
 		case DOUBLE_SINGLE_TAP: tap_code16(KC_TAB); register_code16(KC_TAB);
 	}
@@ -476,7 +518,7 @@ void dance_5_reset(tap_dance_state_t *state, void *user_data) {
 	wait_ms(10);
 	switch (dance_state.step) {
 		case SINGLE_TAP: unregister_code16(KC_TAB); break;
-		case SINGLE_HOLD: unregister_code16(KC_RALT); break;
+		case SINGLE_HOLD: unregister_code16(KC_LCTL); break;
 		case DOUBLE_TAP: unregister_code16(KC_TAB); break;
 		case DOUBLE_SINGLE_TAP: unregister_code16(KC_TAB); break;
 	}
@@ -539,12 +581,12 @@ void dance_7_reset(tap_dance_state_t *state, void *user_data);
 
 void on_dance_7(tap_dance_state_t *state, void *user_data) {
 	if(state->count == 3) {
-		tap_code16(KC_T);
-		tap_code16(KC_T);
-		tap_code16(KC_T);
+		tap_code16(KC_DOT);
+		tap_code16(KC_DOT);
+		tap_code16(KC_DOT);
 	}
 	if(state->count > 3) {
-		tap_code16(KC_T);
+		tap_code16(KC_DOT);
 	}
 }
 
@@ -562,20 +604,20 @@ uint8_t dance_7_dance_step(tap_dance_state_t *state) {
 void dance_7_finished(tap_dance_state_t *state, void *user_data) {
 	dance_state.step = dance_7_dance_step(state);
 	switch (dance_state.step) {
-		case SINGLE_TAP: register_code16(KC_T); break;
-		case SINGLE_HOLD: register_code16(KC_LCTL); break;
-		case DOUBLE_TAP: register_code16(KC_T); register_code16(KC_T); break;
-		case DOUBLE_SINGLE_TAP: tap_code16(KC_T); register_code16(KC_T);
+		case SINGLE_TAP: register_code16(KC_DOT); break;
+		case SINGLE_HOLD: register_code16(KC_RALT); break;
+		case DOUBLE_TAP: register_code16(KC_DOT); register_code16(KC_DOT); break;
+		case DOUBLE_SINGLE_TAP: tap_code16(KC_DOT); register_code16(KC_DOT);
 	}
 }
 
 void dance_7_reset(tap_dance_state_t *state, void *user_data) {
 	wait_ms(10);
 	switch (dance_state.step) {
-		case SINGLE_TAP: unregister_code16(KC_T); break;
-		case SINGLE_HOLD: unregister_code16(KC_LCTL); break;
-		case DOUBLE_TAP: unregister_code16(KC_T); break;
-		case DOUBLE_SINGLE_TAP: unregister_code16(KC_T); break;
+		case SINGLE_TAP: unregister_code16(KC_DOT); break;
+		case SINGLE_HOLD: unregister_code16(KC_RALT); break;
+		case DOUBLE_TAP: unregister_code16(KC_DOT); break;
+		case DOUBLE_SINGLE_TAP: unregister_code16(KC_DOT); break;
 	}
 	dance_state.step = 0;
 }
