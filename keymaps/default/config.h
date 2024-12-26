@@ -52,10 +52,13 @@
 
 // the maximum time (ms) allowed between taps of your Tap Dance key
 // this is also determines how long a hold takes
-#define TAPPING_TERM 150
+#define TAPPING_TERM 100
 
 // per-key control of tapping term
 #define TAPPING_TERM_PER_KEY
+// if you hold a mod key, and then press-and-release another key, the hold-function of that key
+// will be executed instead of the tap-function even if the mod key was released before the tapping_term
+#define PERMISSIVE_HOLD
 
 // you can enable per-key timing to ensure that each key pressed provides you with more time to finish the sequence
 #define LEADER_PER_KEY_TIMING

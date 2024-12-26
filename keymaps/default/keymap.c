@@ -262,9 +262,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // this func is called for every key press
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        //case TD(DANCE_4):
-        //    return TAPPING_TERM - 100;
+        case TD(KC_RSFT):
+            // decreased tapping term for R-shift
+            return TAPPING_TERM - 50;
+        case TD(DANCE_1):
+            // increased tapping term for hyper
+            return TAPPING_TERM + 50;
+        case TD(DANCE_2):
+            // increased tapping term for cmd
+            return TAPPING_TERM + 50;
+        case TD(DANCE_3):
+            // increased tapping term for mouse
+            return TAPPING_TERM + 50;
+        case TD(DANCE_5):
+            // increased tapping term for ctrl
+            return TAPPING_TERM + 50;
+        case TD(DANCE_7):
+            // increased tapping term for alt
+            return TAPPING_TERM + 50;
         default:
+            // keep faster, default tapping term for numbers and symbols layer toggles
             return TAPPING_TERM;
     }
 }
