@@ -23,8 +23,6 @@
 #ifdef RGB_DI_PIN
   #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
   #define RGBLIGHT_EFFECT_RAINBOW_MOOD
-  #define RGBLIGHT_EFFECT_STATIC_GRADIENT
-  #define RGBLIGHT_EFFECT_BREATHING
   #define RGBLED_NUM 36
   #define RGBLED_SPLIT \
         { 18, 18 }
@@ -52,13 +50,18 @@
 
 // the maximum time (ms) allowed between taps of your Tap Dance key
 // this is also determines how long a hold takes
-#define TAPPING_TERM 100
+#define TAPPING_TERM 125
 
 // per-key control of tapping term
 #define TAPPING_TERM_PER_KEY
 // if you hold a mod key, and then press-and-release another key, the hold-function of that key
 // will be executed instead of the tap-function even if the mod key was released before the tapping_term
 #define PERMISSIVE_HOLD
+//#define PERMISSIVE_HOLD_PER_KEY
+
+// if you hold a mod key, and then JUST-press-and-NOT-release another key, the hold-function of that key
+// will be executed instead of the tap-function even if the mod key was released before the tapping_term
+//#define HOLD_ON_OTHER_KEY_PRESS
 
 // you can enable per-key timing to ensure that each key pressed provides you with more time to finish the sequence
 #define LEADER_PER_KEY_TIMING
